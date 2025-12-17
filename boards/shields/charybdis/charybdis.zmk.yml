@@ -1,0 +1,12 @@
+file_format: "1"
+id: charybdis
+name: charybdis
+type: shield
+url: https://github.com/taufiqr
+requires: [nice_nano]
+features:
+  - keys
+  - studio
+siblings:
+  - charybdis_left
+  - charybdis_right

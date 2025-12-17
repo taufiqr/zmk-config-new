@@ -1,0 +1,139 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/pointing.h>
+#include <input/processors.dtsi>
+
+&lt {
+        #binding-cells = <2>;
+        tapping-term-ms = <200>;
+        quick-tap-ms = <0>;
+        flavor = "tap-preferred";
+};
+
+/ { 
+    trackball_listener {
+        compatible = "zmk,input-listener";
+        device = <&trackball_split>;
+        input-processors = <&zip_xy_scaler 1 2>;//activate layer 3 within 500ms of the trackball moving
+        scroll {
+            layers = <3>;
+            input-processors = <&zip_xy_scaler 1 5>, <&zip_xy_to_scroll_mapper>;
+        };
+    };
+
+    behaviors {
+        hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_MODS";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <0>;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
+        };
+    };
+
+    keymap {
+                compatible = "zmk,keymap";
+
+                default_layer {
+                        bindings = <
+        //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
+        //│  !       │  @       │  #       │  $       │  %       │   │  ^       │  &       │  *       │  `       │  ~       │
+            &kp Q      &kp W      &kp E      &kp R      &kp T          &kp Y      &kp U      &kp I      &kp O      &kp P 
+        //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+        //│    ;     │  [       │  {       │  (       │  -       │   │  =       │  \       │          │          │          │  
+            &kp A     &hm LALT S &hm LCTRL D &hm LGUI F  &kp G         &kp H    &hm RGUI J &hm RCTRL K &hm RALT L  &kp SQT
+        //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+        //│    ;     │  [       │  {       │  (       │  -       │   │  =       │  \       │          │          │          │
+            &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N      &kp M      &kp COMMA  &kp DOT    &lt 5 FSLH
+        //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
+                               &kp ESC  &lt 3 TAB &hm LSHFT SPACE     &hm RSHFT RET &lt 2 BSPC  
+        //                      ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────╯
+                        >;
+                };
+                colemakdh_layer {
+                        bindings = <
+        //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
+             &kp Q     &kp W      &kp F      &kp P      &kp B          &kp J      &kp L      &kp U      &kp Y      &kp SQT 
+        //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+             &kp A     &hm LALT R &hm LCTRL S &hm LGUI T  &kp G        &kp M     &hm RGUI N  &hm RCTRL E &hm RALT I  &kp O
+        //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+              &kp Z    &kp X      &kp C      &kp D      &kp V          &kp K      &kp H      &kp COMMA  &kp DOT    &lt 5 FSLH
+        //╰──────────┴──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
+                                  &trans     &trans    &trans         &trans     &trans                        
+        //                      ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────╯          
+                        >;
+                };
+                sym_layer {
+                        bindings = <
+        //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
+        //│  !       │  @       │  #       │  $       │  %       │   │  ^       │  &       │  *       │  `       │  ~       │
+            &kp EXCL   &kp AT     &kp HASH   &kp DLLR   &kp PRCNT      &kp CARET  &kp AMPS   &kp ASTRK  &kp GRAVE   &kp TILDE
+        //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+        //│    ;     │  [       │  {       │  (       │  -       │   │  =       │  \       │          │          │          │
+            &kp SEMI   &kp LBKT   &kp LBRC   &kp LPAR   &kp MINUS      &kp EQUAL  &kp BSLH   &trans     &trans     &trans
+        //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤ 
+        //│    :     │  ]       │  }       │  )       │  _       │   │  +       │  |       │          │          │          │
+            &kp COLON  &kp RBKT   &kp RBRC   &kp RPAR   &kp UNDER      &kp PLUS   &kp PIPE   &trans     &trans     &trans
+        //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
+                                  &trans    &mo 4       &trans         &trans     &trans     
+        //                      ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────╯
+                    >;
+                };
+                num_layer  {
+                        bindings = <
+        //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
+        //│ 1        │  2       │  3       │  4       │  5       │   │ 6        │ 7        │ 8        │ 9        │   0      │
+            &kp N1    &kp N2     &kp N3     &kp N4     &kp N5          &kp N6     &kp N7     &kp N8     &kp N9      &kp N0
+        //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+        //│ REDO     │          │          │          │          |   | PAGE UP  │          │ UP       │          │  HOME    │
+           &kp K_REDO  &kp LALT   &kp LCTRL  &kp LGUI  &kp PSCRN      &kp PG_UP   &trans    &kp UARW   &trans     &kp HOME 
+        //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+        //│ UNDO     │   CUT    │   COPY   │  PASTE   |          │   │ PAGE DOWN│ LEFT     │ DOWN     │ RIGHT    │ END      │
+           &kp K_UNDO &kp K_CUT  &kp K_COPY &kp K_PASTE &kp CAPS      &kp PG_DN  &kp LARW   &kp DARW   &kp RARW   &kp END 
+        //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
+                                   &trans    &trans     &trans        &kp DEL      &mo 4
+        //                      ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────╯
+                    >;
+                };
+                tri_layer {
+                        bindings = <     
+        //╭──────────┬──────────┬──────────┬───────────┬────────────╮   ╭────────────┬────────────┬──────────┬───────────┬──────────╮
+        //│  F1      │  F2      │  F3      │  F4       │ PROFILE 0  │   │ PROFILE 2  │ TOGGLEOUT  │ WINDOWS  │ VOL MUTE  │ NEXTSONG │
+            &kp F1     &kp F2     &kp F3     &kp F4     &bt BT_SEL 0     &bt BT_SEL 2  &tog 2        &trans   &kp C_MUTE  &kp C_NEXT
+        //├──────────┼──────────┼──────────┼───────────┼────────────┤   ├────────────┼────────────┼──────────┼───────────┼──────────┤
+        //│  F5      │  F6      │  F7      │  F8       │ PROFILE 1  │   │ PROFILE 3  │ INC BRIGHT │          │  VOL UP   │PAUSEMUSIC│
+            &kp F5     &kp F6     &kp F7     &kp F8     &bt BT_SEL 1     &bt BT_SEL 3  &kp C_BRI_UP  &trans   &kp C_VOL_UP  &kp C_PP
+        //├──────────┼──────────┼──────────┼───────────┼────────────┤   ├────────────┼────────────┼──────────┼───────────┼──────────┤
+        //│  F9      │  F10     │  F11     │  F12      │  CLEAR BT  │   │ PROFILE 4  │ DEC BRIGHT │          |  VOL DOWN │ PREVSONG │
+            &kp F9     &kp F10    &kp F11    &kp F12     &bt BT_CLR      &bt BT_SEL 4  &kp C_BRI_DEC  &trans   &kp C_VOL_DN &kp C_PREV
+        //╰──────────┴──────────┴──────────┼───────────┼────────────┤   ├────────────┼────────────┼──────────┴───────────┴──────────╯
+                                  &studio_unlock &trans  &trans           &trans      &trans
+        //                      ╰──────────┴───────────┴────────────╯   ╰────────────┴────────────╯
+
+                        >;     
+                };
+                mouse_layer {
+                        bindings = <     
+        //╭──────────┬──────────┬──────────┬───────────┬────────────╮   ╭────────────┬────────────┬──────────┬───────────┬──────────╮
+            &trans     &trans     &trans     &trans      &trans           &trans       &trans       &trans     &trans      &trans
+        //├──────────┼──────────┼──────────┼───────────┼────────────┤   ├────────────┼────────────┼──────────┼───────────┼──────────┤
+            &trans     &trans     &trans     &trans      &trans           &trans       &trans       &trans     &trans      &trans
+        //├──────────┼──────────┼──────────┼───────────┼────────────┤   ├────────────┼────────────┼──────────┼───────────┼──────────┤
+            &trans     &trans     &trans     &trans      &trans           &trans       &trans       &trans     &trans      &trans
+        //╰──────────┴──────────┴──────────┼───────────┼────────────┤   ├────────────┼────────────┼──────────┴───────────┴──────────╯
+                                  &mkp LCLK  &mo 3       &mkp RCLK        &trans      &trans
+        //                      ╰──────────┴───────────┴────────────╯   ╰────────────┴────────────╯
+
+                        >;     
+                };
+        };
+};

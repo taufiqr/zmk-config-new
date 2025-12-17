@@ -1,0 +1,31 @@
+# Copyright (c) 2020 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+if SHIELD_CHARYBDIS_LEFT
+
+config ZMK_KEYBOARD_NAME
+	default "Charybdis"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+	default y
+
+config SPI
+    default y
+
+endif
+
+if SHIELD_CHARYBDIS_LEFT || SHIELD_CHARYBDIS_RIGHT
+
+config ZMK_SPLIT
+	default y
+
+config ZMK_POINTING
+    default y
+
+config ZMK_POINTING_SMOOTH_SCROLLING
+    default n
+
+config PMW3610
+    default y
+
+endif
