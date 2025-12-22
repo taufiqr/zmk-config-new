@@ -25,7 +25,7 @@ config ZMK_POINTING
 config ZMK_POINTING_SMOOTH_SCROLLING
     default n
 
-config PMW3610
+config PMW3610_ENABLE
     default y
 
 endif
