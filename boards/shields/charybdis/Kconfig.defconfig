@@ -19,13 +19,4 @@ if SHIELD_CHARYBDIS_LEFT || SHIELD_CHARYBDIS_RIGHT
 config ZMK_SPLIT
 	default y
 
-config ZMK_POINTING
-    default y
-
-config ZMK_POINTING_SMOOTH_SCROLLING
-    default n
-
-config PMW3610_ENABLE
-    default y
-
 endif
