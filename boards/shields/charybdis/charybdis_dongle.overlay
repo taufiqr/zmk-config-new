@@ -13,7 +13,3 @@
         events = <0>;
     };
 };
-
-&trackball_split {
-	status = "okay";
-};
